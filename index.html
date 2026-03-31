@@ -276,7 +276,7 @@
                 if (dateObj < today) {
                     dayDiv.classList.add('disabled', 'opacity-30');
                 } else if (reservedDates.includes(dateStr)) {
-                    dayDiv.classList.add('reserved');
+                    dayDiv.classList.add('calendar-day', 'reserved');
                 } else {
                     dayDiv.classList.add('calendar-day', 'bg-white', 'text-slate-700', 'shadow-sm');
                     dayDiv.onclick = () => selectDate(dateObj, dateStr, dayDiv);
