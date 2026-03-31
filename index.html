@@ -51,6 +51,8 @@
         .hide-scrollbar::-webkit-scrollbar {
             display: none;
         }
+        
+        /* Estilos del Calendario */
         .calendar-day {
             transition: all 0.2s;
             cursor: pointer;
@@ -64,7 +66,6 @@
             color: #cbd5e1;
             cursor: not-allowed;
             background-color: transparent;
-            transform: none;
         }
         .calendar-day.selected {
             background-color: #2C3E50;
@@ -74,11 +75,12 @@
         .calendar-day.reserved {
             background-color: #fee2e2;
             color: #ef4444;
-            border-color: #fca5a5;
+            border: 1px solid #fca5a5;
             cursor: not-allowed;
             text-decoration: line-through;
-            transform: none;
+            pointer-events: none;
         }
+
         .toggle-checkbox:checked {
             right: 0;
             border-color: #D97757;
@@ -169,28 +171,6 @@
         </div>
     </section>
 
-    <!-- SECCIÓN: DEPARTAMENTO -->
-    <section id="departamento" class="py-24 bg-arena">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center flex-col-reverse lg:flex-row-reverse">
-                <div data-aos="fade-left">
-                    <h2 class="text-oliva font-bold tracking-widest uppercase text-sm mb-2">Hospedaje Privado</h2>
-                    <h3 class="text-4xl md:text-5xl font-serif mb-6 text-carbon leading-tight">Extiende tu experiencia y descansa</h3>
-                    <p class="text-gray-600 mb-8 text-lg">Nuestro departamento en planta alta te ofrece total privacidad y descanso a unos pasos del área de convivencia.</p>
-                    <div class="grid grid-cols-2 gap-6 mb-10">
-                        <div class="bg-white p-5 rounded-2xl shadow-sm"><i class="fa-solid fa-bed text-2xl text-oliva mb-2"></i><h4 class="font-bold text-sm">Cama Queen Size</h4></div>
-                        <div class="bg-white p-5 rounded-2xl shadow-sm"><i class="fa-solid fa-kitchen-set text-2xl text-oliva mb-2"></i><h4 class="font-bold text-sm">Cocina Equipada</h4></div>
-                    </div>
-                    <a href="https://wa.me/526243203289" target="_blank" class="text-terracota font-bold flex items-center gap-2 text-lg">Consultar tarifas del hospedaje <i class="fa-solid fa-arrow-right"></i></a>
-                </div>
-                <div class="relative h-[600px]" data-aos="fade-right">
-                    <div class="absolute top-0 right-0 w-4/5 h-4/5 rounded-3xl overflow-hidden shadow-2xl z-10"><img src="https://i.postimg.cc/K4XQyFBj/20260201_232054000_i_OS.jpg" class="w-full h-full object-cover"></div>
-                    <div class="absolute bottom-0 left-0 w-2/3 h-2/3 rounded-3xl overflow-hidden shadow-2xl border-8 border-arena z-20"><img src="https://i.postimg.cc/WtRSPjgb/cocina.jpg" class="w-full h-full object-cover"></div>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- GALERÍA -->
     <section id="galeria" class="py-24 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -198,17 +178,17 @@
                 <h2 class="text-terracota font-bold uppercase text-sm mb-2">Conoce el lugar</h2>
                 <h3 class="text-4xl font-serif text-carbon">Galería de Fotos</h3>
             </div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6" id="gallery-grid">
-                <div class="aspect-square overflow-hidden rounded-2xl cursor-pointer shadow-sm" onclick="openModal('https://i.postimg.cc/Xq68hKSx/foto_1.png')"><img src="https://i.postimg.cc/Xq68hKSx/foto_1.png" class="w-full h-full object-cover hover:scale-105 transition-all"></div>
-                <div class="aspect-square overflow-hidden rounded-2xl cursor-pointer shadow-sm" onclick="openModal('https://i.postimg.cc/x1c38XjB/foto_6.jpg')"><img src="https://i.postimg.cc/x1c38XjB/foto_6.jpg" class="w-full h-full object-cover hover:scale-105 transition-all"></div>
-                <div class="aspect-square overflow-hidden rounded-2xl cursor-pointer shadow-sm" onclick="openModal('https://i.postimg.cc/VkdWvJL1/foto_4.png')"><img src="https://i.postimg.cc/VkdWvJL1/foto_4.png" class="w-full h-full object-cover hover:scale-105 transition-all"></div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                <div class="aspect-square overflow-hidden rounded-2xl cursor-pointer" onclick="openModal('https://i.postimg.cc/Xq68hKSx/foto_1.png')"><img src="https://i.postimg.cc/Xq68hKSx/foto_1.png" class="w-full h-full object-cover"></div>
+                <div class="aspect-square overflow-hidden rounded-2xl cursor-pointer" onclick="openModal('https://i.postimg.cc/x1c38XjB/foto_6.jpg')"><img src="https://i.postimg.cc/x1c38XjB/foto_6.jpg" class="w-full h-full object-cover"></div>
+                <div class="aspect-square overflow-hidden rounded-2xl cursor-pointer" onclick="openModal('https://i.postimg.cc/VkdWvJL1/foto_4.png')"><img src="https://i.postimg.cc/VkdWvJL1/foto_4.png" class="w-full h-full object-cover"></div>
             </div>
         </div>
     </section>
 
-    <div id="image-modal" class="fixed inset-0 z-[100] hidden bg-black/95 backdrop-blur-sm flex items-center justify-center opacity-0 transition-opacity duration-300">
+    <div id="image-modal" class="fixed inset-0 z-[100] hidden bg-black/95 flex items-center justify-center opacity-0 transition-opacity duration-300">
         <button onclick="closeModal()" class="absolute top-6 right-6 text-white text-4xl"><i class="fa-solid fa-xmark"></i></button>
-        <img id="modal-img" src="" class="max-h-[90vh] max-w-[95vw] object-contain rounded-lg">
+        <img id="modal-img" src="" class="max-h-[90vh] max-w-[95vw] object-contain">
     </div>
 
     <!-- CALENDARIO -->
@@ -216,7 +196,7 @@
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-12" data-aos="fade-up">
                 <h3 class="text-4xl font-serif text-carbon mb-4">Disponibilidad y Cotizador</h3>
-                <p class="text-gray-600">Selecciona una fecha para calcular el costo.</p>
+                <p class="text-gray-600">Selecciona una fecha disponible para calcular el costo de tu evento.</p>
             </div>
             <div class="bg-white rounded-3xl shadow-lg p-6 md:p-10">
                 <div class="flex justify-between items-center mb-6">
@@ -228,9 +208,52 @@
                     <div>Dom</div><div>Lun</div><div>Mar</div><div>Mié</div><div>Jue</div><div>Vie</div><div>Sáb</div>
                 </div>
                 <div id="calendar-grid" class="grid grid-cols-7 gap-2 md:gap-4 text-center"></div>
+                <div class="mt-6 text-center text-xs text-gray-500">
+                    <span class="inline-flex items-center gap-1"><div class="w-3 h-3 rounded-full bg-red-100 border border-red-300"></div> No Disponible</span>
+                    <span class="inline-flex items-center gap-1 ml-4"><div class="w-3 h-3 rounded-full bg-white border border-gray-300"></div> Disponible</span>
+                </div>
             </div>
         </div>
     </section>
+
+    <!-- MODAL DE COTIZACIÓN -->
+    <div id="booking-modal" class="fixed inset-0 z-[100] hidden bg-black/60 flex items-center justify-center opacity-0 transition-opacity duration-300">
+        <div class="bg-white rounded-3xl w-full max-w-md mx-4 overflow-hidden shadow-2xl transform scale-95 transition-transform duration-300">
+            <div class="bg-carbon text-white p-6 relative">
+                <button onclick="closeBookingModal()" class="absolute top-4 right-4 text-gray-300 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
+                <p class="text-xs font-bold text-terracota uppercase tracking-widest mb-1">Cotización</p>
+                <h3 class="text-2xl font-serif" id="selected-date-display">Fecha Seleccionada</h3>
+            </div>
+            <div class="p-6">
+                <div class="space-y-4 mb-6">
+                    <div class="flex justify-between items-center pb-4 border-b">
+                        <div>
+                            <p class="font-bold text-carbon text-lg">Renta del Salón</p>
+                            <p class="text-xs text-gray-500" id="price-type-label">Tarifa</p>
+                        </div>
+                        <p class="font-black text-xl text-carbon" id="base-price-display">$0</p>
+                    </div>
+                    <div class="flex justify-between items-center bg-arena p-4 rounded-xl border">
+                        <div>
+                            <p class="font-bold text-carbon">Agregar Departamento</p>
+                            <p class="text-xs text-gray-500" id="depto-price-label">+$2,000 MXN</p>
+                        </div>
+                        <div class="relative inline-block w-12 mr-2 align-middle select-none">
+                            <input type="checkbox" id="depto-toggle" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer z-10"/>
+                            <label for="depto-toggle" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex justify-between items-end mb-6">
+                    <p class="text-gray-500 font-medium">Total Estimado:</p>
+                    <p class="text-4xl font-black text-terracota" id="total-price-display">$0</p>
+                </div>
+                <button onclick="confirmarWhatsApp()" class="w-full bg-carbon text-white font-bold py-4 rounded-full flex items-center justify-center gap-2 hover:bg-terracota transition-all shadow-lg">
+                    <i class="fa-brands fa-whatsapp text-xl"></i> Apartar por WhatsApp
+                </button>
+            </div>
+        </div>
+    </div>
 
     <!-- FOOTER -->
     <footer class="bg-carbon text-white pt-20 pb-10">
@@ -258,7 +281,6 @@
             <div class="flex flex-col md:flex-row justify-between items-center text-gray-500 text-xs gap-6">
                 <p>&copy; 2026 Casa Copal. Todos los derechos reservados.</p>
                 <div class="flex flex-wrap justify-center gap-6">
-                    <!-- ENLACES DE REDES SOCIALES CON TEXTO -->
                     <a href="https://www.facebook.com/casacopalcabos/" target="_blank" class="flex items-center gap-2 hover:text-terracota transition-all bg-white/5 px-4 py-2 rounded-full">
                         <i class="fa-brands fa-facebook text-lg"></i>
                         <span class="font-bold">@casacopalcabos</span>
@@ -280,7 +302,7 @@
 
         AOS.init({ once: true });
 
-        // Firebase Config
+        // Firebase Config (Casa Copal Oficial)
         const firebaseConfig = {
           apiKey: "AIzaSyDSyCBJ3VeLNYgFjo4qo3pysBJPYEfmryQ",
           authDomain: "casa-copal-web.firebaseapp.com",
@@ -292,10 +314,14 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // Lógica Calendario
+        // Lógica del Calendario
         let currentDate = new Date();
+        let selectedDate = null;
         let reservedDates = [];
+        let basePrice = 0;
+        let deptoPrice = 0;
 
+        // Escuchar cambios en tiempo real desde Firebase
         onSnapshot(collection(db, 'reservaciones'), (snapshot) => {
             reservedDates = snapshot.docs.map(doc => doc.id);
             renderCalendar();
@@ -308,6 +334,9 @@
             
             const month = currentDate.getMonth();
             const year = currentDate.getFullYear();
+            const today = new Date();
+            today.setHours(0,0,0,0);
+
             monthText.textContent = currentDate.toLocaleDateString('es-MX', { month: 'long', year: 'numeric' });
 
             const firstDay = new Date(year, month, 1).getDay();
@@ -316,16 +345,79 @@
             for (let i = 0; i < firstDay; i++) grid.appendChild(document.createElement('div'));
 
             for (let i = 1; i <= daysInMonth; i++) {
+                const dateObj = new Date(year, month, i);
+                dateObj.setHours(12,0,0,0);
                 const dateStr = `${year}-${String(month+1).padStart(2,'0')}-${String(i).padStart(2,'0')}`;
+                
                 const dayDiv = document.createElement('div');
                 dayDiv.textContent = i;
-                dayDiv.className = 'w-10 h-10 flex items-center justify-center rounded-full mx-auto text-sm border border-gray-50';
+                dayDiv.className = 'w-10 h-10 md:w-12 md:h-12 flex items-center justify-center rounded-full mx-auto text-sm border border-gray-50';
                 
-                if (reservedDates.includes(dateStr)) dayDiv.classList.add('reserved');
-                else dayDiv.classList.add('calendar-day');
-
+                if (dateObj < today) {
+                    dayDiv.classList.add('disabled');
+                } else if (reservedDates.includes(dateStr)) {
+                    dayDiv.classList.add('reserved');
+                } else {
+                    dayDiv.classList.add('calendar-day');
+                    dayDiv.onclick = () => selectDate(dateObj, dateStr, dayDiv);
+                }
                 grid.appendChild(dayDiv);
             }
+        }
+
+        window.selectDate = function(dateObj, dateStr, element) {
+            const prev = document.querySelector('.calendar-day.selected');
+            if(prev) prev.classList.remove('selected');
+            element.classList.add('selected');
+            
+            selectedDate = dateObj;
+            const dayOfWeek = dateObj.getDay();
+            const isWeekend = (dayOfWeek === 0 || dayOfWeek === 5 || dayOfWeek === 6);
+            
+            basePrice = isWeekend ? 5000 : 4000;
+            deptoPrice = isWeekend ? 2000 : 1600;
+            
+            document.getElementById('selected-date-display').textContent = dateObj.toLocaleDateString('es-MX', { weekday: 'long', day: 'numeric', month: 'long' });
+            document.getElementById('base-price-display').textContent = `$${basePrice.toLocaleString()}`;
+            document.getElementById('depto-price-label').textContent = `+$${deptoPrice.toLocaleString()} MXN`;
+            document.getElementById('price-type-label').textContent = isWeekend ? 'Tarifa Fin de Semana' : 'Tarifa Entre Semana';
+            
+            document.getElementById('depto-toggle').checked = false;
+            updateTotal();
+
+            const modal = document.getElementById('booking-modal');
+            modal.classList.remove('hidden');
+            setTimeout(() => modal.classList.remove('opacity-0'), 10);
+        }
+
+        window.updateTotal = function() {
+            const depto = document.getElementById('depto-toggle').checked;
+            const total = basePrice + (depto ? deptoPrice : 0);
+            document.getElementById('total-price-display').textContent = `$${total.toLocaleString()}`;
+        }
+        document.getElementById('depto-toggle').onchange = updateTotal;
+
+        window.closeBookingModal = function() {
+            const modal = document.getElementById('booking-modal');
+            modal.classList.add('opacity-0');
+            setTimeout(() => modal.classList.add('hidden'), 300);
+            const sel = document.querySelector('.calendar-day.selected');
+            if(sel) sel.classList.remove('selected');
+        }
+
+        window.confirmarWhatsApp = function() {
+            const depto = document.getElementById('depto-toggle').checked;
+            const total = basePrice + (depto ? deptoPrice : 0);
+            const fechaTxt = selectedDate.toLocaleDateString('es-MX', { weekday: 'long', day: 'numeric', month: 'long' });
+            
+            let msg = `¡Hola! 🌿 Vi la disponibilidad en la página y me interesa apartar la siguiente fecha:\n\n`;
+            msg += `🗓️ *Fecha:* ${fechaTxt}\n`;
+            msg += `🏠 *Espacio:* Salón Principal\n`;
+            if(depto) msg += `🛏️ *Hospedaje:* Incluido\n`;
+            msg += `💵 *Total estimado:* $${total.toLocaleString()}\n\n`;
+            msg += `¿Me podrías dar los pasos para confirmar el depósito?`;
+            
+            window.open(`https://wa.me/526243203289?text=${encodeURIComponent(msg)}`, '_blank');
         }
 
         window.changeMonth = (step) => { currentDate.setMonth(currentDate.getMonth() + step); renderCalendar(); }
