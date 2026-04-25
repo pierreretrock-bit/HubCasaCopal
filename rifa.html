@@ -150,7 +150,7 @@
                 <!-- Botones Inferiores -->
                 <div class="mt-10 flex flex-col sm:flex-row justify-center items-center gap-4 border-t border-gray-100 pt-8">
                     <!-- NUEVO BOTÓN GENÉRICO DE WHATSAPP -->
-                    <a href="https://wa.me/526242641609?text=Hola,%20ya%20aparté%20un%20boleto%20para%20la%20rifa%20y%20quiero%20enviar%20mi%20comprobante." target="_blank" class="text-sm font-bold text-[#25D366] bg-green-50 px-5 py-3 rounded-full hover:bg-green-100 transition-colors flex items-center gap-2 shadow-sm w-full sm:w-auto justify-center">
+                    <a href="https://wa.me/526243203289?text=Hola,%20ya%20aparté%20un%20boleto%20para%20la%20rifa%20y%20quiero%20enviar%20mi%20comprobante." target="_blank" class="text-sm font-bold text-[#25D366] bg-green-50 px-5 py-3 rounded-full hover:bg-green-100 transition-colors flex items-center gap-2 shadow-sm w-full sm:w-auto justify-center">
                         <i class="fa-brands fa-whatsapp text-lg"></i> ¿Ya apartaste? Enviar comprobante
                     </a>
                     
@@ -461,7 +461,7 @@
                 closeRifaPurchase();
                 
                 // Formatear número para que agarre Lada 52 (México)
-                let phoneNum = '526242641609'; // Tu número oficial para depósitos
+                let phoneNum = '526243203289'; // Tu número oficial para depósitos
                 
                 document.getElementById('vt-number').innerText = `#${selectedRifaNumber}`;
                 document.getElementById('vt-name').innerText = name;
@@ -492,7 +492,7 @@
             document.getElementById('pending-num').innerText = `#${num}`;
             document.getElementById('pending-name').innerText = name || 'Usuario';
             
-            let phoneNum = '526242641609'; // Tu número oficial
+            let phoneNum = '526243203289'; // Tu número oficial
             const msg = `Hola, aparté el boleto #${num} a nombre de ${name}. Aquí te envío mi comprobante de pago de la rifa de Melissa.`;
             document.getElementById('pending-wa-btn').href = `https://wa.me/${phoneNum}?text=${encodeURIComponent(msg)}`;
             
