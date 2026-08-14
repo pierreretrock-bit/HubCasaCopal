@@ -457,6 +457,7 @@
                     <input type="tel" id="cliente-telefono" placeholder="Teléfono / WhatsApp" class="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:border-terracota focus:ring-1 focus:ring-terracota text-sm" required>
                     <input type="email" id="cliente-correo" placeholder="Correo electrónico" class="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:border-terracota focus:ring-1 focus:ring-terracota text-sm" required>
                     <p id="error-datos" class="text-red-500 text-xs font-bold hidden"><i class="fa-solid fa-triangle-exclamation"></i> Por favor, completa todos los campos para continuar.</p>
+                    <p id="error-reserva" class="text-red-500 text-xs font-bold hidden"><i class="fa-solid fa-triangle-exclamation"></i> No se pudo bloquear la fecha. Actualiza el calendario e intenta nuevamente.</p>
                 </div>
 
                 <!-- Total -->
@@ -570,7 +571,7 @@
     <script type="module">
         // Importar Módulos de Base de Datos (Firebase)
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getFirestore, collection, onSnapshot, addDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, collection, onSnapshot, doc, runTransaction } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         // Inicializar Animaciones
         AOS.init({ once: true, offset: 100 });
@@ -819,12 +820,21 @@
             const telefono = document.getElementById('cliente-telefono').value.trim();
             const correo = document.getElementById('cliente-correo').value.trim();
             const msgError = document.getElementById('error-datos');
+            const reservaError = document.getElementById('error-reserva');
+
+            reservaError.classList.add('hidden');
 
             if(!nombre || !telefono || !correo) {
                 msgError.classList.remove('hidden'); 
                 return; 
             } else {
                 msgError.classList.add('hidden'); 
+            }
+
+            if(!isDbConnected || !db) {
+                reservaError.textContent = 'No hay conexión con el sistema de reservas. Intenta nuevamente.';
+                reservaError.classList.remove('hidden');
+                return;
             }
 
             const btn = document.getElementById('btn-confirmar');
@@ -834,28 +844,53 @@
             const dateStr = formatDateToYYYYMMDD(selectedDateObj);
             const deptoSelected = document.getElementById('depto-toggle').checked;
             const total = basePrice + (deptoSelected ? deptoPrice : 0);
-            
-            if(isDbConnected && db) {
-    try {
-        await addDoc(collection(db, 'solicitudes_reserva'), {
-            fecha: dateStr,
-            status: 'pendiente',
-            precio_total: total,
-            depto_incluido: deptoSelected,
-            cliente_nombre: nombre,
-            cliente_telefono: telefono,
-            cliente_correo: correo,
-            origen: 'web_publica',
-            createdAt: new Date().toISOString()
-        });
-    } catch(e) { 
-        console.error("Error guardando solicitud de reserva:", e); 
-    }
-}
+            const requestRef = doc(collection(db, 'solicitudes_reserva'));
+            const occupiedRef = doc(db, 'fechas_ocupadas', dateStr);
 
-            if(!reservedDates.includes(dateStr)) {
-                reservedDates.push(dateStr);
-                window.renderCalendar();
+            try {
+                await runTransaction(db, async (transaction) => {
+                    const occupiedSnap = await transaction.get(occupiedRef);
+
+                    if (occupiedSnap.exists()) {
+                        throw new Error('DATE_OCCUPIED');
+                    }
+
+                    const now = new Date().toISOString();
+
+                    transaction.set(requestRef, {
+                        fecha: dateStr,
+                        status: 'pendiente',
+                        precio_total: total,
+                        depto_incluido: deptoSelected,
+                        cliente_nombre: nombre,
+                        cliente_telefono: telefono,
+                        cliente_correo: correo,
+                        origen: 'web_publica',
+                        createdAt: now
+                    });
+
+                    transaction.set(occupiedRef, {
+                        fecha: dateStr,
+                        status: 'bloqueo_temporal',
+                        solicitudWebId: requestRef.id,
+                        origen: 'web_publica',
+                        createdAt: now,
+                        updatedAt: now
+                    });
+                });
+            } catch(e) {
+                console.error('Error creando solicitud y bloqueo temporal:', e);
+                btn.disabled = false;
+                btn.innerHTML = 'Confirmar Reserva';
+
+                if (e.message === 'DATE_OCCUPIED') {
+                    reservaError.textContent = 'Esta fecha acaba de ser ocupada por otra solicitud o reserva. Elige otra fecha.';
+                } else {
+                    reservaError.textContent = 'No se pudo registrar la solicitud ni bloquear la fecha. Intenta nuevamente.';
+                }
+
+                reservaError.classList.remove('hidden');
+                return;
             }
 
             btn.classList.remove('bg-carbon');
@@ -875,11 +910,11 @@
             mensaje += `Quedo en espera del número de cuenta para realizar la transferencia del anticipo. Mi correo es ${correo}. ¡Gracias!`;
 
             const url = `https://wa.me/526243203289?text=${encodeURIComponent(mensaje)}`;
-            
+
             setTimeout(() => {
                 window.open(url, '_blank'); 
                 window.closeBookingModal();
-                
+
                 btn.disabled = false;
                 btn.innerHTML = 'Confirmar Reserva';
                 btn.classList.remove('bg-[#25D366]');
